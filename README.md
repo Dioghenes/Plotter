@@ -10,3 +10,16 @@ The format of the data sent over the UART line from the microcontroller is simpl
   * Python2.7
      * serial
   * Arduino or STM boards, or Freescale micros (any type of microcontroller with an ADC and a USART peripheral)
+
+### Usage
+ 1) Set the Serial port to be used
+ 2) Set the baudrate used for communication
+ 3) Set correctly the number of traces sent by the microcontroller
+ 4) Set to a value comprised between 0 and number_of_traces-1 to plot only one trace (single trace)
+ 5) Leave to -1 the trace to plot to trace them all
+ 6) If you want, enable advanced functions
+ 7) Set zoom scale to zoom the plot in a particular voltage range (instead of whole fullscale)
+ 8) Set the ADC range to the **actual** voltages used by the ADC (4.7V is different from 5.0V !)
+ 9) Enable oversampling 1 (5 points average)
+ 10) Enable oversampling 2 (10 points average)
+ 11) Press start
