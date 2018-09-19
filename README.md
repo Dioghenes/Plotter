@@ -9,6 +9,9 @@ The format of the data sent over the UART line from the microcontroller is simpl
 ### Requirements
   * Python2.7
      * serial
+     * Tkinter
+     * ttk
+     * tkMessageBox
   * Arduino or STM boards, or Freescale micros (any type of microcontroller with an ADC and a USART peripheral)
 
 ### Usage
