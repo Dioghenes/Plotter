@@ -2,7 +2,7 @@
  # Dioghenes
  # Polytechnic of Turin
  # 2016
- # Plotter v0.5
+ # Plotter v0.6
 #******************************************************
 
 from Tkinter import *
@@ -26,7 +26,7 @@ global _RUN
 
 
 
-_version = "Plotter v0.5"
+_version = "Plotter v0.6"
 if os.name == "posix":
 	_defaultPathVar = str(os.getcwd()+"/Plots/")
 	_defaultPort = "/dev/ttyACM0"
@@ -42,14 +42,14 @@ _RUN = 0
 	Main class
 """
 class Plotter:
-	
+
 
 	"""
 		Draw the window and initialize the variables
 	"""
-	def __init__(self):		
+	def __init__(self):
 
-		global _NTRACES		
+		global _NTRACES
 
 		self.mainApp = Tk()
 		self.mainApp.title(_version)
@@ -77,13 +77,13 @@ class Plotter:
 		self._MAXABSVAR = StringVar()			        #Beta function
 		self._MINVOLTVAR = StringVar()                          #
 		self._MAXVOLTVAR = StringVar()                          #
-		self._WORKVAR = ""						#String containing path+filename. 
+		self._WORKVAR = ""						#String containing path+filename.
 		self._NOISVAR = IntVar()				#Noise reduction level 1
 		self._NOISVAR2 = IntVar()				#Noise reduction level 2
 		self._STATUSVAR = StringVar()   		#Variable for the status of the program.
-		self._NTRACES = IntVar()				#Variable for the number of traces plotted on the screen		
+		self._NTRACES = IntVar()				#Variable for the number of traces plotted on the screen
 		self._TRACETOPLOT = IntVar()			#Datum to plot in the array of data received
-		
+
 		self._PORTVAR.set(_defaultPort)
 		self._BAUDVAR.set(_defaultBaud)
 		self._SAVEVAR.set(0)
@@ -102,7 +102,7 @@ class Plotter:
 
 		self.mainFrame = Frame(self.mainApp,height=1000,width=1200)
 		self.mainFrame.pack(expand=1,fill=BOTH)
-		
+
 
 		"""
 			Frames definition
@@ -140,8 +140,8 @@ class Plotter:
 		self.startTraceLabel = Label(self.leftFrame2,text="Trace to plot: ")
 		self.startTraceLabel.grid(column=0,row=1,pady=10)
 		self.startTraceEntry = Entry(self.leftFrame2,textvariable=self._TRACETOPLOT)
-		self.startTraceEntry.grid(column=1,row=1,pady=10)	
-		
+		self.startTraceEntry.grid(column=1,row=1,pady=10)
+
 		#Personalized scale
 		self.leftFrame3 = LabelFrame(self.leftFrame,text="Set scale")
 		self.leftFrame3.pack(side=TOP,expand=1,fill=BOTH,pady=4)
@@ -169,7 +169,7 @@ class Plotter:
 		self.scEntrymA.grid(row=3,column=1,pady=10)
 		self.scEntrymB = Entry(self.leftFrame3,textvariable=self._MINVOLTVAR,state=DISABLED,width=12)
 		self.scEntrymB.grid(row=3,column=2,pady=10)
-		
+
 		self.noiseChkButton = Checkbutton(self.leftFrame3,text="Enable Anti-Noise",variable=self._NOISVAR)
 		self.noiseChkButton["state"] = DISABLED
 		self.noiseChkButton.grid(row=4,columnspan=3,pady=10)
@@ -177,8 +177,8 @@ class Plotter:
 		self.UnoiseChkButton = Checkbutton(self.leftFrame3,text="Enable Ultra-AntiNoise",variable=self._NOISVAR2)
 		self.UnoiseChkButton["state"] = DISABLED
 		self.UnoiseChkButton.grid(row=5,columnspan=3,pady=10)
-		
-		
+
+
 		#Start, stop and default buttons
 		self.leftFrame4 = LabelFrame(self.leftFrame,text="Commands")
 		self.leftFrame4.pack(side=TOP,expand=1,fill=BOTH,pady=4)
@@ -188,9 +188,9 @@ class Plotter:
 		self.stopButton = Button(self.leftFrame4,text="Stop Sampling",state=DISABLED)
 		self.stopButton["command"] = self.stop
 		self.stopButton.pack(side=TOP,expand=1,fill=BOTH)
-		
+
 		Separator(self.leftFrame4,orient=HORIZONTAL).pack(side=TOP,expand=1,fill=BOTH)
-		
+
 		self.restoreDefaultButton = Button(self.leftFrame4,text="Restore Default")
 		self.restoreDefaultButton["command"] = self.restoreDefault
 		self.restoreDefaultButton.pack(side=TOP,expand=1,fill=BOTH)
@@ -231,7 +231,7 @@ class Plotter:
 		self.statusLabel = Label(self.bottomFrame,textvariable=self._STATUSVAR)
 		self.statusLabel.pack(expand=1,fill=BOTH)
 		self._STATUSVAR.set("Ready")
-		
+
 		self.mainApp.bind_all("<Control-C>",self.restoreDefaultHandler)
 		self.mainApp.mainloop()
 
@@ -249,9 +249,9 @@ class Plotter:
 		self.drawCanva.create_line(40,510,40,10,arrow=LAST,arrowshape=(8,10,3))
 
 		#x axis
-		self.drawCanva.create_line(40,510,840,510,arrow=LAST,arrowshape=(8,10,3)) 
+		self.drawCanva.create_line(40,510,840,510,arrow=LAST,arrowshape=(8,10,3))
 
-		#Draw a scale on the x axis 
+		#Draw a scale on the x axis
 		x = 40
 		while x<840:
 			self.drawCanva.create_line(x,510,x,515)
@@ -278,7 +278,7 @@ class Plotter:
 				self.drawCanva.create_text(860,x,text=str(nums),fill="#CC2222")
 				x -= 100.0
 				nums += 1.0
-				
+
 		#Re-scaled mode
 		else:
 			try:
@@ -287,8 +287,8 @@ class Plotter:
 				#Coefficient that says how many points are contained in 50 pixels
 				coeff = (abs(float(self._MINABSVAR.get())-float(self._MAXABSVAR.get()))*25.0/500.0)
 			except:
-				showwarning(title="Invalid values",message="Invalid scaling parameters. Check and change them.")	
-				return "ERR"		
+				showwarning(title="Invalid values",message="Invalid scaling parameters. Check and change them.")
+				return "ERR"
 			x = 260.0
 			nums = medium
 			color = "#BBBBBB"
@@ -335,7 +335,7 @@ class Plotter:
 
 
 	"""
-		Start the sampling operation		
+		Start the sampling operation
 	"""
 	def start(self):
 		global _RUN
@@ -343,7 +343,7 @@ class Plotter:
 		self.drawCanva.delete("all")
 		if self.drawAxis()=="ERR":
 			return
-		try:			
+		try:
 			self.serialComm = Serial(self._PORTVAR.get(),int(self._BAUDVAR.get()))
 			self.stopButton["state"] = ACTIVE
 			self.startButton["state"] = DISABLED
@@ -359,7 +359,7 @@ class Plotter:
 			self.scEntrymB["state"] = DISABLED
 			self.noiseChkButton["state"] = DISABLED
 			self.UnoiseChkButton["state"] = DISABLED
-		
+
 			self.fp = None
 			if self._SAVEVAR.get() == 1:
 				self.fp = file(self._WORKVAR,'w')
@@ -399,7 +399,7 @@ class Plotter:
 
 	"""
 		Stop the sampling operation
-	"""	
+	"""
 	def stop(self):
 		global _RUN
 
@@ -431,11 +431,11 @@ class Plotter:
 			self.UnoiseChkButton["state"] = DISABLED
 		self._STATUSVAR.set("Ready")
 		self.saveChkButton["state"] = DISABLED
-		
+
 		self.serialComm.close()
-	
-	
-	
+
+
+
 	"""
 		Restore default parameters and default button states. Handler for critical events.
 	"""
@@ -520,7 +520,7 @@ class Plotter:
 		Define path to save the sampling data in
 		Here a new TopLevel window is created.
 		This window is blocking towards the main application:
-		in this way you cannot modify other parameters if you don't 
+		in this way you cannot modify other parameters if you don't
 		choose a file to save datas in as first.
 	"""
 	def definePath(self):
@@ -669,8 +669,8 @@ class serialThread(Thread):
 			try:
 				#Convert the absolute value (0-maxADC) into a coordinate of y
 				for j in range(self.ntraces):
-					self.finalValues[j] = (float(self.finalValues[j])*coeff)-(500.0/(self.maxVoltage-self.minVoltage))*float(self.minVoltage)	
-				
+					self.finalValues[j] = (float(self.finalValues[j])*coeff)-(500.0/(self.maxVoltage-self.minVoltage))*float(self.minVoltage)
+
 				#Save in the file
 				if self.fp != None:
 					self.fp.write(str(self.finalValues)+"\n")
@@ -702,7 +702,7 @@ class serialThread(Thread):
 
 		else:
 			return
-			
+
 	def runSingle(self):
 		global _RUN
 
@@ -728,7 +728,7 @@ class serialThread(Thread):
 			try:
 				#Convert the absolute value (0-maxADC) into a coordinate of y
 				self.finalValue = ((float(self.finalValue)*coeff-float(self.minVoltage)*100.0)/(float(self.maxVoltage)-float(self.minVoltage)))*5.0
-				
+
 				#Save in the file
 				if self.fp != None:
 					self.fp.write(str(self.finalValue)+"\n")
@@ -756,7 +756,7 @@ class serialThread(Thread):
 				self.prvValue = self.finalValue
 			except:
 				pass
-			
+
 		else:
 			return
 
@@ -782,13 +782,13 @@ class serialThread(Thread):
 				self.statusvar.set("Sampling")
 		except:
 			return [0] * self.ntraces
-		
+
 		return finalValues
-			
 
 
-""" 
-	Create an instance of the class 
+
+"""
+	Create an instance of the class
 """
 Plotter()
 

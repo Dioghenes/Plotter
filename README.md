@@ -26,3 +26,16 @@ The format of the data sent over the UART line from the microcontroller is simpl
  9) Enable oversampling 1 (5 points average)
  10) Enable oversampling 2 (10 points average)
  11) Press start
+
+### Example with Arduino
+The following code is an Arduino example for the multitrace mode
+
+void setup(){
+  Serial.begin(9600);
+}
+
+void loop(){
+ Serial.print(analogRead(A0));
+ Serial.print(" "); 
+ Serial.println(analogRead(A1));
+}
